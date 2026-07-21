@@ -5,9 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
+
 </head>
 <body>
-    
+    <div class="header">
+
+    </div>
+
+    <div class="citySearch">
+        <input id="search-input" placeholder="Enter city name">
+        <button id="search-location">Search</button>
+        <button id="unit-toggle">°F / °C</button>
+    </div>
+
+    <div class="weather-container">
+        <img class="weather-icon">
+        <div class="weather">
+            <h1 class="city"></h1>
+            <h1 class="temp"></h1>
+            <p class="description"></p> <!-- Weather condition here-->
+
+            <div class="weather-detail">
+                <p class="humidity"></p>
+                <p class="apparent-temp"></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
