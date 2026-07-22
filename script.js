@@ -13,6 +13,17 @@ searchButton.addEventListener('click', async () => {
     const weatherLocation = searchInput.value;
     console.log(weatherLocation);
     const data = await getWeatherData(weatherLocation);
+
+    /* NOTE TO SELF 
+    (data === null will ONLY check if its null)
+    use (!data) for board check (null, undefined, 0, " ", false, NaN)
+
+    But since I return null in catch error, ig thats fine
+    */
+    if (!data) {
+        return;
+    }
+
     const { address, condition, temp, apparentTemp, humidity} = data;
     // console.log({ address, condition, temp, apparentTemp, humidity});
 
@@ -32,21 +43,29 @@ searchButton.addEventListener('click', async () => {
 
 async function getWeatherData(location) {
     try {
+
         const API_KEY = `JVYX4A4YC26XB3AQ3GY64JK8Z`
         const response = await fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?key=${API_KEY}&contentType=json`)
+        
+        console.log(response.status);
+        if (!response.ok) {
+            throw new Error("City not found!");
+        }
         const data = await response.json();
         // console.log(data)
 
         return  processWeatherData(data); // I really spent hours because I forgot to return ts function bruh
         
     } catch (error) {
-        console.error("Failed to fetch data: ", error);
+        console.error(error);
+        alert("Invalid location")
+        return null;
     }
-
-
-
 }
+
 // Need to clean this shit up
+// UPDATE: Cleaned.
+
 function processWeatherData(data) {
     // console.log(data);
     const address = data.address;
