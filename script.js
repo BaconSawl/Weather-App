@@ -8,15 +8,20 @@ const tempElement = document.querySelector(".temp")
 const weatherConditionElement = document.querySelector(".weather-condition")
 const humidityElement = document.querySelector(".humidity")
 const apparentTempElement = document.querySelector(".apparent-temp")
+
 let tempUnit = "F"
+let weatherData = null;
 
 searchButton.addEventListener('click', async () => {
-    displayWeather();
+    displayWeather(weatherData);
 })
-
+    
 unitButton.addEventListener('click', () => {
     toggleTempUnit();
 })
+
+// TODO: Store all these function in a Module file then import it here
+// This is fucking messy and hard to write
 
 async function getWeatherData(location) {
     try {
@@ -24,7 +29,7 @@ async function getWeatherData(location) {
         const API_KEY = `JVYX4A4YC26XB3AQ3GY64JK8Z`
         const response = await fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?key=${API_KEY}&contentType=json`)
         
-        console.log(response.status);
+        console.log(`Connect API success:`, response.status);
         if (!response.ok) {
             throw new Error("City not found!");
         }
@@ -47,8 +52,8 @@ function processWeatherData(data) {
     // console.log(data);
     const address = data.address;
     const condition = data.currentConditions.conditions;
-    const temp = convertTemp(data.currentConditions.temp) ;
-    const apparentTemp = convertTemp(data.currentConditions.feelslike);
+    const temp = data.currentConditions.temp;
+    const apparentTemp = data.currentConditions.feelslike;
     const humidity = data.currentConditions.humidity;
 
     /*
@@ -62,10 +67,10 @@ function processWeatherData(data) {
     return { address, condition, temp, apparentTemp, humidity};    
 }
 
-async function displayWeather() {
+async function displayWeather(data) {
     const weatherLocation = searchInput.value;
     console.log(weatherLocation);
-    const weatherData = await getWeatherData(weatherLocation); // REMEMBER: this func return an object
+    weatherData = await getWeatherData(weatherLocation); // REMEMBER: this func return an object
 
     /* NOTE TO SELF 
     (data === null will ONLY check if its null)
@@ -76,20 +81,25 @@ async function displayWeather() {
     if (!weatherData) {
         return;
     }
-
-    const { address, condition, temp, apparentTemp, humidity} = weatherData;
     // console.log({ address, condition, temp, apparentTemp, humidity});
 
+    /*
     console.log(`Address: ${address}, 
                 Condition: ${condition}, 
                 Temperature: ${temp}, 
                 Apparent Temperature: ${apparentTemp}, 
                 Humidity: ${humidity}`);
+    */
+    updateWeatherInfo(data);
+}
 
-    cityElement.textContent = address;
-    tempElement.textContent = `${temp}°${tempUnit}`;
-    weatherConditionElement.textContent = condition;
-    apparentTempElement.textContent = `${apparentTemp}°${tempUnit}`;
+function updateWeatherInfo(data) {
+    const { address, condition, temp, apparentTemp, humidity} = weatherData;
+
+    cityElement.textContent = `${address}`;
+    tempElement.textContent = `${convertTemp(temp)}°${tempUnit}`;
+    weatherConditionElement.textContent = `${condition}`;
+    apparentTempElement.textContent = `${convertTemp(apparentTemp)}°${tempUnit}`;
     humidityElement.textContent = `${humidity}%`;
 }
 
@@ -101,8 +111,8 @@ function toggleTempUnit() {
     }
     console.log(tempUnit);
 
-    if (tempElement) {
-        displayWeather();
+    if (weatherData) {
+        updateWeatherInfo(weatherData); // My dumbass kept calling displayWeather() and waste the API
     }
 }
 
