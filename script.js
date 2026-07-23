@@ -12,8 +12,14 @@ const apparentTempElement = document.querySelector(".apparent-temp")
 let tempUnit = "F"
 let weatherData = null;
 
+
+async function init() { // Will put a loading screen or loading spinner here soon
+    displayWeather();
+}
+init();
+
 searchButton.addEventListener('click', async () => {
-    displayWeather(weatherData);
+    displayWeather();
 })
     
 unitButton.addEventListener('click', () => {
@@ -29,7 +35,7 @@ async function getWeatherData(location) {
         const API_KEY = `JVYX4A4YC26XB3AQ3GY64JK8Z`
         const response = await fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?key=${API_KEY}&contentType=json`)
         
-        console.log(`Connect API success:`, response.status);
+        // console.log(`Connect API success:`, response.status);
         if (!response.ok) {
             throw new Error("City not found!");
         }
@@ -67,8 +73,11 @@ function processWeatherData(data) {
     return { address, condition, temp, apparentTemp, humidity};    
 }
 
-async function displayWeather(data) {
-    const weatherLocation = searchInput.value;
+async function displayWeather() {
+    let weatherLocation = searchInput.value;
+    if (!weatherLocation) {
+        weatherLocation = `Tokyo`;
+    }
     console.log(weatherLocation);
     weatherData = await getWeatherData(weatherLocation); // REMEMBER: this func return an object
 
@@ -90,7 +99,7 @@ async function displayWeather(data) {
                 Apparent Temperature: ${apparentTemp}, 
                 Humidity: ${humidity}`);
     */
-    updateWeatherInfo(data);
+    updateWeatherInfo(weatherData);
 }
 
 function updateWeatherInfo(data) {
@@ -109,7 +118,7 @@ function toggleTempUnit() {
     } else {
         tempUnit = "F";
     }
-    console.log(tempUnit);
+    console.log(`Current Temperature Unit: ${tempUnit}`);
 
     if (weatherData) {
         updateWeatherInfo(weatherData); // My dumbass kept calling displayWeather() and waste the API
