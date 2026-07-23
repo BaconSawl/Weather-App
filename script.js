@@ -8,37 +8,14 @@ const tempElement = document.querySelector(".temp")
 const weatherConditionElement = document.querySelector(".weather-condition")
 const humidityElement = document.querySelector(".humidity")
 const apparentTempElement = document.querySelector(".apparent-temp")
+let tempUnit = "F"
 
 searchButton.addEventListener('click', async () => {
-    const weatherLocation = searchInput.value;
-    console.log(weatherLocation);
-    const data = await getWeatherData(weatherLocation);
+    displayWeather();
+})
 
-    /* NOTE TO SELF 
-    (data === null will ONLY check if its null)
-    use (!data) for board check (null, undefined, 0, " ", false, NaN)
-
-    But since I return null in catch error, ig thats fine
-    */
-    if (!data) {
-        return;
-    }
-
-    const { address, condition, temp, apparentTemp, humidity} = data;
-    // console.log({ address, condition, temp, apparentTemp, humidity});
-
-    console.log(`Address: ${address}, 
-                Condition: ${condition}, 
-                Temperature: ${temp}, 
-                Apparent Temperature: ${apparentTemp}, 
-                Humidity: ${humidity}`);
-
-    cityElement.textContent = address;
-    tempElement.textContent = `${temp}°F`;
-    weatherConditionElement.textContent = condition;
-    apparentTempElement.textContent = `${apparentTemp}°F`;
-    humidityElement.textContent = `${humidity}%`;
-
+unitButton.addEventListener('click', () => {
+    toggleTempUnit();
 })
 
 async function getWeatherData(location) {
@@ -70,8 +47,8 @@ function processWeatherData(data) {
     // console.log(data);
     const address = data.address;
     const condition = data.currentConditions.conditions;
-    const temp = data.currentConditions.temp;
-    const apparentTemp = data.currentConditions.feelslike;
+    const temp = convertTemp(data.currentConditions.temp) ;
+    const apparentTemp = convertTemp(data.currentConditions.feelslike);
     const humidity = data.currentConditions.humidity;
 
     /*
@@ -85,4 +62,54 @@ function processWeatherData(data) {
     return { address, condition, temp, apparentTemp, humidity};    
 }
 
+async function displayWeather() {
+    const weatherLocation = searchInput.value;
+    console.log(weatherLocation);
+    const weatherData = await getWeatherData(weatherLocation); // REMEMBER: this func return an object
 
+    /* NOTE TO SELF 
+    (data === null will ONLY check if its null)
+    use (!data) for board check (null, undefined, 0, " ", false, NaN)
+
+    But since I return null in catch error, ig thats fine
+    */
+    if (!weatherData) {
+        return;
+    }
+
+    const { address, condition, temp, apparentTemp, humidity} = weatherData;
+    // console.log({ address, condition, temp, apparentTemp, humidity});
+
+    console.log(`Address: ${address}, 
+                Condition: ${condition}, 
+                Temperature: ${temp}, 
+                Apparent Temperature: ${apparentTemp}, 
+                Humidity: ${humidity}`);
+
+    cityElement.textContent = address;
+    tempElement.textContent = `${temp}°${tempUnit}`;
+    weatherConditionElement.textContent = condition;
+    apparentTempElement.textContent = `${apparentTemp}°${tempUnit}`;
+    humidityElement.textContent = `${humidity}%`;
+}
+
+function toggleTempUnit() {
+    if (tempUnit === "F") {
+        tempUnit = "C";
+    } else {
+        tempUnit = "F";
+    }
+    console.log(tempUnit);
+
+    if (tempElement) {
+        displayWeather();
+    }
+}
+
+function convertTemp(temp) {
+    if (tempUnit === "F") {
+        return temp;
+    }
+
+    return ((temp - 32) * 5 / 9).toFixed(1);
+}
