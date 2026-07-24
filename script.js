@@ -1,13 +1,17 @@
+import { Icon } from "./assets/weather-icons"
+
 // Im putting all the elemetns here cuz its clean
 const searchButton = document.querySelector("#search-location")
 const searchInput = document.querySelector("#search-input")
 const unitButton = document.querySelector("#unit-toggle")
 
+const iconElement = document.querySelector(".weather-icon")
 const cityElement = document.querySelector(".city")
 const tempElement = document.querySelector(".temp")
 const weatherConditionElement = document.querySelector(".weather-condition")
 const humidityElement = document.querySelector(".humidity")
 const apparentTempElement = document.querySelector(".apparent-temp")
+
 
 let tempUnit = "F"
 let weatherData = null;

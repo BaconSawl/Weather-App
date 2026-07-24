@@ -64,6 +64,13 @@ body {
     align-items: center;
 }
 
+.weather-general {
+    text-align: center;
+}
+.weather .temp {
+    font-size: 3em;
+}
+
 .weather-detail {
     display: grid;
     grid-template-columns: 8em 8em;
