@@ -108,8 +108,8 @@ function updateWeatherInfo(data) {
     cityElement.textContent = `${address}`;
     tempElement.textContent = `${convertTemp(temp)}°${tempUnit}`;
     weatherConditionElement.textContent = `${condition}`;
-    apparentTempElement.textContent = `${convertTemp(apparentTemp)}°${tempUnit}`;
-    humidityElement.textContent = `${humidity}%`;
+    apparentTempElement.textContent = `Feels like: ${convertTemp(apparentTemp)}°${tempUnit}`;
+    humidityElement.textContent = `Humidity: ${humidity}%`;
 }
 
 function toggleTempUnit() {
