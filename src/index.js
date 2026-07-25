@@ -66,16 +66,18 @@ function processWeatherData(data) {
     const temp = data.currentConditions.temp;
     const apparentTemp = data.currentConditions.feelslike;
     const humidity = data.currentConditions.humidity;
+    const icon = data.currentConditions.icon
 
     /*
     console.log(`Address: ${address}, 
                 Condition: ${condition}, 
                 Temperature: ${temp}, 
                 Apparent Temperature: ${apparentTemp}, 
-                Humidity: ${humidity}`);
+                Humidity: ${humidity},
+                Icon: ${icon}`);
     */
 
-    return { address, condition, temp, apparentTemp, humidity};    
+    return { address, condition, temp, apparentTemp, humidity, icon};    
 }
 
 async function displayWeather() {
@@ -97,24 +99,20 @@ async function displayWeather() {
     }
     // console.log({ address, condition, temp, apparentTemp, humidity});
 
-    /*
-    console.log(`Address: ${address}, 
-                Condition: ${condition}, 
-                Temperature: ${temp}, 
-                Apparent Temperature: ${apparentTemp}, 
-                Humidity: ${humidity}`);
-    */
     updateWeatherInfo(weatherData);
 }
 
 function updateWeatherInfo(data) {
-    const { address, condition, temp, apparentTemp, humidity} = weatherData;
+    const { address, condition, temp, apparentTemp, humidity, icon} = weatherData;
 
     cityElement.textContent = `${address}`;
     tempElement.textContent = `${convertTemp(temp)}°${tempUnit}`;
     weatherConditionElement.textContent = `${condition}`;
     apparentTempElement.textContent = `Feels like: ${convertTemp(apparentTemp)}°${tempUnit}`;
     humidityElement.textContent = `Humidity: ${humidity}%`;
+    iconElement.src = weatherIcons[icon];
+    
+    console.log(`${icon}`)
 }
 
 function toggleTempUnit() {

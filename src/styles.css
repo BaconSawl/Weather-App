@@ -56,7 +56,6 @@ body {
 
 .weather-icon {
   height: 10em;
-  background-image: url('assets/weather-icon-placeholder.png');
   background-repeat: no-repeat;  /* Stops the image from tiling */
   background-size: cover;        /* Scales image to fill the background */
   background-position: center; 
