@@ -9,6 +9,47 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
+body.clear-day {
+    background: linear-gradient(#64b5f6, #bbdefb);
+}
+
+body.clear-night {
+    background: linear-gradient(#0d1b2a, #415a77);
+}
+
+body.cloudy {
+    background: linear-gradient(#0d1b2a, #fffff8)
+}
+
+body.partly-cloudy-day {
+    background: linear-gradient(#bae0ff, #f1f397);
+}
+
+body.partly-cloudy-night {
+    background: linear-gradient(#0d1b2a, #fffff8)
+}
+
+body.rain {
+    background: linear-gradient(#607d8b, #b0bec5);
+}
+
+body.snow {
+    background: linear-gradient(#ffffff, #00a0f0)
+}
+
+body.thunder-showers-day {
+    background: linear-gradient(#f6fa18, #000000);
+}
+
+body.thunder-showers-night {
+    background: linear-gradient(#f6fa18, #000000);
+}
+
+body.thunder-rain {
+    background: linear-gradient(#f6fa18, #000000);
+}
+
+
 .header {
     flex: 0.2;
     align-content:center;
@@ -21,19 +62,20 @@ body {
     
     padding: 10px 40px;
     text-align: center;
+
+    transition: .2s;
 }
 
 
 /* Simple button animations! */
 .btn:hover {
     transform: translateY(-3px);
-    transition: all 550ms cubic-bezier(0.19, 1, 0.22, 1);;
 }
 
 .btn:active {
-  background-color: #3e8e41;
-  box-shadow: 0 5px #666;
-  transform: translateY(4px);
+    background-color: #3e8e41;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
 }
 
 .weather-container {
@@ -55,10 +97,10 @@ body {
 }
 
 .weather-icon {
-  height: 10em;
-  background-repeat: no-repeat;  /* Stops the image from tiling */
-  background-size: cover;        /* Scales image to fill the background */
-  background-position: center; 
+    height: 12em;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center; 
 }
 
 .weather {

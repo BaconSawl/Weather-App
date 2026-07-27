@@ -105,6 +105,22 @@ async function displayWeather() {
 function updateWeatherInfo(data) {
     const { address, condition, temp, apparentTemp, humidity, icon} = weatherData;
 
+    // Stolen from here https://github.com/Katusyo/weather thank u bro
+    document.body.classList.remove(
+        "clear-day",
+        "clear-night",
+        "rain",
+        "snow",
+        "cloudy",
+        "partly-cloudy-day",
+        "partly-cloudy-night",
+        "thunder-showers-day",
+        "thunder-showers-night",
+        "thunder-rain",
+    );
+
+    document.body.classList.add(icon);
+
     cityElement.textContent = `${address}`;
     tempElement.textContent = `${convertTemp(temp)}°${tempUnit}`;
     weatherConditionElement.textContent = `${condition}`;
