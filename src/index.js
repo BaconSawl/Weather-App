@@ -37,7 +37,7 @@ unitButton.addEventListener('click', () => {
 async function getWeatherData(location) {
     try {
 
-        const API_KEY = `JVYX4A4YC26XB3AQ3GY64JK8Z`
+        const API_KEY = `JVYX4A4YC26XB3AQ3GY64JK8Z` // Need to put APIKEY somewhere safe ig
         const response = await fetch(`https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${location}?key=${API_KEY}&contentType=json`)
         
         // console.log(`Connect API success:`, response.status);
